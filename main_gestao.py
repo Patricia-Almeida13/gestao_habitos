@@ -375,41 +375,44 @@ def grafico_barra():
         
 while True:
     print("Gestão de Hábitos Pessoais")
-    print("1. Criar Hábito")
-    print("2. Consultar Hábitos")
-    print("3. Adicionar Hábito")
-    print("4. Filtrar por Categoria")
-    print("5. Atualizar Status")
-    print("6. Estatísticas")
-    print("7. Remover Hábito")
-    print("8. Atualizar Hábito")
+    print("1. Criar Utilizador")
+    print("2. Criar Hábito")
+    print("3. Consultar Hábitos")
+    print("4. Adicionar Hábito")
+    print("5. Filtrar por Categoria")
+    print("6. Atualizar Status")
+    print("7. Estatísticas")
+    print("8. Remover Hábito")
+    print("9. Atualizar Hábito")
     print("10. Gráfico de Barra")
-    print("12. Exportar Dados para Excel")
-    print("14. Sair")
+    print("11. Exportar Dados para Excel")
+    print("12. Sair")
     
     escolha = input("Escolha uma opção: ")
     
     if escolha == "1":
-        criar_dataframe()
+        criar_usuario()
     elif escolha == "2":
-        consultar_dataframe()
+        criar_dataframe()
     elif escolha == "3":
-        adicionar_habito()
+        consultar_dataframe()
     elif escolha == "4":
-        filtrar_por_categoria()
+        adicionar_habito()
     elif escolha == "5":
-        atualizar_status()
+        filtrar_por_categoria()
     elif escolha == "6":
-        estatisticas_habitos()
+        atualizar_status()
     elif escolha == "7":
-        remover_habito() 
+        estatisticas_habitos()
     elif escolha == "8":
+        remover_habito() 
+    elif escolha == "9":
         atualizar_habito()
     elif escolha == "10":
         grafico_barra()
-    elif escolha == "12":  
+    elif escolha == "11":  
         exportar_para_excel() 
-    elif escolha == "14":
+    elif escolha == "12":
         print("Obrigado por usar o gestor de hábitos, até logo!")
         break
     else:

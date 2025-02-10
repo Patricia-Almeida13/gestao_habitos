@@ -9,18 +9,18 @@ usuarios = {}
 # Função para criar um novo usuário
 def criar_usuario():
     global usuarios
-    print("Criar Novo Utilizador")
+    print("\nCriar Novo Utilizador")
     
     nome_usuario = input("Digite o nome do usuário: ").strip()
     
     # Verifica se o usuário já existe
     if nome_usuario in usuarios:
-        print(f"Usuário '{nome_usuario}' já existe!")
+        print(f"\nUsuário '{nome_usuario}' já existe!")
         return
     
     # Solicita a criação do DataFrame para o novo usuário
-    print(f"Usuário '{nome_usuario}' criado com sucesso!")
-    usuarios[nome_usuario] = pd.DataFrame(columns=["Hábito", "Categoria", "Frequência", "Data de Inicio", "Status", "Duração (minutos)"])
+    print(f"\nUsuário '{nome_usuario}' criado com sucesso!")
+    usuarios[nome_usuario] = pd.DataFrame(columns=["Hábito", "Categoria", "Frequência", "Data de Inicio", "Status"])
     
     print(f"Agora pode começar a adicionar hábitos para o usuário '{nome_usuario}'.")
 
@@ -28,17 +28,17 @@ def criar_usuario():
 def selecionar_usuario():
     global usuarios
     if not usuarios:
-        print("Nenhum usuário cadastrado!")
+        print("\nNenhum usuário cadastrado!")
         return None
     
-    print("Usuários disponíveis: ", list(usuarios.keys()))
+    print("\nUsuários disponíveis: ", list(usuarios.keys()))
     nome_usuario = input("Digite o nome do usuário que deseja selecionar: ").strip()
     
     if nome_usuario not in usuarios:
-        print("Usuário não encontrado!")
+        print("\nUsuário não encontrado!")
         return None
     
-    print(f"Usuário '{nome_usuario}' selecionado com sucesso!")
+    print(f"\nUsuário '{nome_usuario}' selecionado com sucesso!")
     return nome_usuario
 
 # Modificar funções que usam o DataFrame de hábitos para trabalhar com o usuário selecionado
@@ -57,7 +57,6 @@ def criar_dataframe():
         "Frequência": [],
         "Data de Inicio": [],
         "Status": [],
-        "Duração (minutos)": []
     }
     
     while True:
@@ -66,7 +65,6 @@ def criar_dataframe():
         frequencia = input("Frequência (Diária, Semanal, Mensal): ")
         data_registro = input("Data de Inicio (DD/MM/AAAA): ")
         status = input("Status (Concluído, Pendente, Em progresso): ")
-        duracao = input("Duração apróximada em minutos: ")
         
         try:
             data["Hábito"].append(habito)
@@ -74,18 +72,17 @@ def criar_dataframe():
             data["Frequência"].append(frequencia)
             data["Data de Inicio"].append(pd.to_datetime(data_registro, format="%d/%m/%Y"))
             data["Status"].append(status)
-            data["Duração (minutos)"].append(int(duracao))
         except ValueError:
-            print("Erro! Certifique-se de seguir os formatos indicados.")
+            print("\nErro! Certifique-se de seguir os formatos indicados.")
             continue
         
-        mais = input("Deseja adicionar mais algum hábito? (s/n): ").strip().lower()
+        mais = input("\nDeseja adicionar mais algum hábito? (s/n): ").strip().lower()
         if mais != 's':
             break
     
     # Atualizar o DataFrame do usuário
     usuarios[nome_usuario] = pd.DataFrame(data)
-    print(f"Data Frame criado com sucesso para o usuário '{nome_usuario}'!")
+    print(f"\nData Frame criado com sucesso para o usuário '{nome_usuario}'!")
     print(usuarios[nome_usuario])
 
 
@@ -98,7 +95,7 @@ def consultar_dataframe():
     df = usuarios[nome_usuario]
     
     if df.empty:
-        print("Data Frame vazio!")
+        print("\nData Frame vazio!")
     else:
         print(df)
 
@@ -116,7 +113,6 @@ def adicionar_habito():
     frequencia = input("Frequência: ")
     data_registro = input("Data de Inicio (DD/MM/AAAA): ")
     status = input("Status: ")
-    duracao = input("Duração em minutos: ")
     
     try:
         nova_linha = {
@@ -124,14 +120,13 @@ def adicionar_habito():
             "Categoria": categoria,
             "Frequência": frequencia,
             "Data de Inicio": pd.to_datetime(data_registro, format="%d/%m/%Y"),
-            "Status": status,
-            "Duração (minutos)": int(duracao)
+            "Status": status
         }
         df.loc[len(df)] = nova_linha
         usuarios[nome_usuario] = df  # Atualiza o DataFrame do usuário
-        print("Hábito adicionado com sucesso!")
+        print("\nHábito adicionado com sucesso!")
     except ValueError:
-        print("Erro ao adicionar! Verifique os dados.")
+        print("\nErro ao adicionar! Verifique os dados.")
 
 # Função para filtrar hábitos por categoria
 def filtrar_por_categoria():
@@ -142,10 +137,10 @@ def filtrar_por_categoria():
     global usuarios
     df = usuarios[nome_usuario]
     
-    categoria = input("Digite a categoria que deseja filtrar: ")
+    categoria = input("\nDigite a categoria que deseja filtrar: ")
     filtro = df[df["Categoria"] == categoria]
-    print(f"Hábitos na categoria '{categoria}':")
-    print(filtro if not filtro.empty else "Nenhum hábito encontrado.")
+    print(f"\nHábitos na categoria '{categoria}':")
+    print(filtro if not filtro.empty else "\nNenhum hábito encontrado.")
 
 # Função para atualizar o status de um hábito
 def atualizar_status():
@@ -158,30 +153,19 @@ def atualizar_status():
     
     print(df)
     try:
-        indice = int(input("Indique o índice do hábito que deseja atualizar: "))
-        novo_status = input("Novo status (Concluído, Pendente, Em progresso): ")
+        indice = int(input("\nIndique o índice do hábito que deseja atualizar: "))
+        novo_status = input("\nNovo status (Concluído, Pendente, Em progresso): ")
         
         if indice not in df.index:
-            print("Erro! Índice inválido.")
+            print("\nErro! Índice inválido.")
             return
         
         df.at[indice, "Status"] = novo_status
         usuarios[nome_usuario] = df  # Atualiza o DataFrame do usuário
-        print("Status atualizado com sucesso!")
+        print("\nStatus atualizado com sucesso!")
     except ValueError:
-        print("Erro! Índice inválido.")
+        print("\nErro! Índice inválido.")
 
-# Função para mostrar estatísticas dos hábitos
-def estatisticas_habitos():
-    nome_usuario = selecionar_usuario()
-    if nome_usuario is None:
-        return
-    
-    global usuarios
-    df = usuarios[nome_usuario]
-    
-    print("Estatísticas gerais dos hábitos:")
-    print(df[["Duração (minutos)"]].describe())
     
 def exportar_para_excel():
     nome_usuario = selecionar_usuario()
@@ -192,18 +176,18 @@ def exportar_para_excel():
     df = usuarios[nome_usuario]
     
     if df.empty:
-        print("Não há dados para exportar!")
+        print("\nNão há dados para exportar!")
         return
     
     # Definir o nome do arquivo Excel
-    nome_arquivo = f"{nome_usuario}_dados_habitos.xlsx"
+    nome_arquivo = f"\n{nome_usuario}_dados_habitos.xlsx"
     
     # Exportar o DataFrame para Excel
     try:
         df.to_excel(nome_arquivo, index=False, engine="openpyxl")
-        print(f"Arquivo Excel gerado com sucesso! O arquivo está em: {nome_arquivo}")
+        print(f"\nArquivo Excel gerado com sucesso! O arquivo está em: {nome_arquivo}")
     except Exception as e:
-        print(f"Erro ao gerar o arquivo Excel: {e}")
+        print(f"\nErro ao gerar o arquivo Excel: {e}")
 
 
 # Função para remover um hábito
@@ -215,18 +199,18 @@ def remover_habito():
     global usuarios
     df = usuarios[nome_usuario]
     
-    print("Lista de hábitos disponíveis: ")
+    print("\nLista de hábitos disponíveis: ")
     print(df["Hábito"].to_string(index=False))
 
-    habito = input("Digite o nome do hábito que deseja remover: ").strip()
+    habito = input("\nDigite o nome do hábito que deseja remover: ").strip()
 
     if habito not in df["Hábito"].values:
-        print(f"Erro! O hábito '{habito}' não consta no Data Frame!")
+        print(f"\nErro! O hábito '{habito}' não consta no Data Frame!")
         return
 
     df.drop(df[df["Hábito"] == habito].index, inplace=True)
     usuarios[nome_usuario] = df  # Atualiza o DataFrame do usuário
-    print(f"Hábito '{habito}' removido com sucesso!")
+    print(f"\nHábito '{habito}' removido com sucesso!")
     print()
 
 # Função para atualizar um hábito
@@ -238,10 +222,10 @@ def atualizar_habito():
     global usuarios
     df = usuarios[nome_usuario]
     
-    print("Lista de hábitos disponíveis: ")
+    print("\nLista de hábitos disponíveis: ")
     print(df["Hábito"].to_string(index=False))
 
-    habito = input("Digite o nome do hábito que deseja atualizar: ").strip()
+    habito = input("\nDigite o nome do hábito que deseja atualizar: ").strip()
 
     if habito not in df["Hábito"].values:
         print(f"Erro! O hábito '{habito}' não consta no Data Frame!")
@@ -249,52 +233,23 @@ def atualizar_habito():
 
     index_habito = df[df["Hábito"] == habito].index[0]
 
-    print("Colunas disponíveis para edição:", ", ".join(df.columns))
-    coluna = input("Digite o nome da coluna que deseja atualizar: ").strip()
+    print("\nColunas disponíveis para edição:", ", ".join(df.columns))
+    coluna = input("\nDigite o nome da coluna que deseja atualizar: ").strip()
 
     if coluna not in df.columns:
-        print(f"Erro! A coluna '{coluna}' não existe!")
+        print(f"\nErro! A coluna '{coluna}' não existe!")
         return
 
-    novo_valor = input(f"Digite o novo valor para '{coluna}' no hábito '{habito}': ").strip()
+    novo_valor = input(f"\nDigite o novo valor para '{coluna}' no hábito '{habito}': ").strip()
 
     try:
         tipo_dado = df[coluna].dtype.type
         df.at[index_habito, coluna] = tipo_dado(novo_valor)
         usuarios[nome_usuario] = df  # Atualiza o DataFrame do usuário
-        print(f"Hábito '{habito}' atualizado com sucesso na coluna '{coluna}'!")
+        print(f"\nHábito '{habito}' atualizado com sucesso na coluna '{coluna}'!")
     except ValueError:
-        print("Erro! O valor inserido não corresponde ao tipo de dado da coluna.")
+        print("\nErro! O valor inserido não corresponde ao tipo de dado da coluna.")
 
-# Função para renomear um hábito
-def renomear_habito():
-    nome_usuario = selecionar_usuario()
-    if nome_usuario is None:
-        return
-
-    global usuarios
-    df = usuarios[nome_usuario]
-
-    print("Lista de hábitos disponíveis:")
-    print(df["Hábito"].to_string(index=False))
-
-    habito_atual = input("Digite o nome do hábito que deseja renomear: ").strip()
-
-    if habito_atual not in df["Hábito"].values:
-        print(f"Erro! O hábito '{habito_atual}' não consta no Data Frame!")
-        return
-
-    novo_nome = input("Digite o novo nome para o hábito: ").strip()
-
-    # Verificar se o novo nome já existe
-    if novo_nome in df["Hábito"].values:
-        print(f"Erro! Já existe um hábito com o nome '{novo_nome}'!")
-        return
-
-    # Renomear o hábito
-    df.loc[df["Hábito"] == habito_atual, "Hábito"] = novo_nome
-    usuarios[nome_usuario] = df  # Atualiza o DataFrame do usuário
-    print(f"Hábito '{habito_atual}' renomeado para '{novo_nome}' com sucesso!")
 
 # Função para calcular estatísticas personalizadas
 def calcular_estatistica_personalizada():
@@ -351,7 +306,7 @@ def validar_colunas(colunas):
     
     for col in colunas:
         if col not in df.columns:
-            print(f"Erro! A coluna '{col}' não existe no DataFrame!")
+            print(f"\nErro! A coluna '{col}' não existe no DataFrame!")
             return False
     return True
 
@@ -363,7 +318,7 @@ def grafico_barra():
     
     global usuarios
     df = usuarios[nome_usuario]
-    print("Colunas do Data Frame: ", list(df.columns))
+    print("\nColunas do Data Frame: ", list(df.columns))
     x_col = input("Indique a coluna para o eixo X: ")
     y_col = input("Indique a coluna para o eixo Y: ")
     if validar_colunas([x_col, y_col]):
@@ -375,7 +330,7 @@ def grafico_barra():
         
 while True:
     print("Gestão de Hábitos Pessoais")
-    print("1. Criar Utilizador")
+    print("\n1. Criar Utilizador")
     print("2. Criar Hábito")
     print("3. Consultar Hábitos")
     print("4. Adicionar Hábito")
@@ -403,7 +358,7 @@ while True:
     elif escolha == "6":
         atualizar_status()
     elif escolha == "7":
-        estatisticas_habitos()
+        calcular_estatistica_personalizada()
     elif escolha == "8":
         remover_habito() 
     elif escolha == "9":
@@ -413,11 +368,7 @@ while True:
     elif escolha == "11":  
         exportar_para_excel() 
     elif escolha == "12":
-        print("Obrigado por usar o gestor de hábitos, até logo!")
+        print("\nObrigado por usar o gestor de hábitos, até logo!")
         break
     else:
-        print("Opção inválida, tente novamente!")
-
-
-
-
+        print("\nOpção inválida, tente novamente!")

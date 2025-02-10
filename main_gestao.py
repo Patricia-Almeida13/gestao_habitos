@@ -1,6 +1,7 @@
 import pandas as pd # usado para manipulação de DataFrame
 from datetime import datetime # permite trabalhar com datas e horas
 import matplotlib.pyplot as plt #cração de gráficos e visualizar os dados
+import numpy as np
 
 #NECESSITA ADD LIGAÇÃO COM SQL PARA QUE EXISTA UMA BASE DE DADOS ACTUALIZADA. ADD FUNÇÃO DE NOTIFICAR O UTILIZADOR
 
@@ -319,14 +320,21 @@ def grafico_barra():
     
     global usuarios
     df = usuarios[nome_usuario]
-    print("\nColunas do Data Frame: ", list(df.columns))
-    x_col = input("Indique a coluna para o eixo X: ")
-    y_col = input("Indique a coluna para o eixo Y: ")
-    if validar_colunas([x_col, y_col]):
+    
+    print("\nColunas do DataFrame: ", list(df.columns))
+    x_col = input("Indique a coluna categórica para contagem: ").strip()
+    
+    if validar_colunas([x_col]):
+        contagem = df[x_col].value_counts()  # Conta a frequência de cada categoria
+        
         plt.figure(figsize=(10, 6))
-        df.plot(kind='bar', x=x_col, y=y_col, legend=True)
-        plt.title("Gráfico de Barra")
-        plt.legend(title=y_col)
+        contagem.plot(kind="bar", color="royalblue", edgecolor="black")
+        plt.xlabel(x_col)
+        plt.ylabel("Frequência")
+        plt.title(f"Distribuição de {x_col}")
+        plt.xticks(rotation=45)  # Inclina os rótulos para melhor visualização
+        plt.grid(axis="y", linestyle="--", alpha=0.7)  # Adiciona linhas de grade no eixo Y
+        
         plt.show()
         
 while True:

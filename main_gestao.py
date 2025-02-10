@@ -372,6 +372,49 @@ def grafico_barra():
         plt.title("Gráfico de Barra")
         plt.legend(title=y_col)
         plt.show()
+        
+while True:
+    print("Gestão de Hábitos Pessoais")
+    print("1. Criar Hábito")
+    print("2. Consultar Hábitos")
+    print("3. Adicionar Hábito")
+    print("4. Filtrar por Categoria")
+    print("5. Atualizar Status")
+    print("6. Estatísticas")
+    print("7. Remover Hábito")
+    print("8. Atualizar Hábito")
+    print("10. Gráfico de Barra")
+    print("12. Exportar Dados para Excel")
+    print("14. Sair")
+    
+    escolha = input("Escolha uma opção: ")
+    
+    if escolha == "1":
+        criar_dataframe()
+    elif escolha == "2":
+        consultar_dataframe()
+    elif escolha == "3":
+        adicionar_habito()
+    elif escolha == "4":
+        filtrar_por_categoria()
+    elif escolha == "5":
+        atualizar_status()
+    elif escolha == "6":
+        estatisticas_habitos()
+    elif escolha == "7":
+        remover_habito() 
+    elif escolha == "8":
+        atualizar_habito()
+    elif escolha == "10":
+        grafico_barra()
+    elif escolha == "12":  
+        exportar_para_excel() 
+    elif escolha == "14":
+        print("Obrigado por usar o gestor de hábitos, até logo!")
+        break
+    else:
+        print("Opção inválida, tente novamente!")
+
 
 
 

@@ -1,7 +1,8 @@
 import pandas as pd # usado para manipulação de DataFrame
 from datetime import datetime # permite trabalhar com datas e horas
 import matplotlib.pyplot as plt #cração de gráficos e visualizar os dados
-import numpy as np #efectua calculos e operações com arrays
+
+#NECESSITA ADD LIGAÇÃO COM SQL PARA QUE EXISTA UMA BASE DE DADOS ACTUALIZADA. ADD FUNÇÃO DE NOTIFICAR O UTILIZADOR
 
 # Dicionário para armazenar os dados dos usuários
 usuarios = {}
